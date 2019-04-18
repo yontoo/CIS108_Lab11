@@ -49,13 +49,49 @@ XString::XString(size_t SomeCapacity)
 	raw_string[0] = '\0';
 }
 
-void XString::assign(const char* ArrayParam)
+void XString::assign(const char* ArrayInput)
 {
-	capacity = len(ArrayParam) + 1;
-	raw_string = new char[capacity];
+	capacity = len(ArrayInput) + 1;
 	for (int x = 0; x < (capacity - 1); x++)
 	{
-		raw_string[x] = ArrayParam[x];
+		raw_string[x] = ArrayInput[x];
+	}
+	raw_string[(capacity - 1)] = '\0';
+}
+
+void XString::assign(XString & SomeXString)
+{
+	capacity = SomeXString.capacity;
+	for (int x = 0; x < (capacity - 1); x++)
+	{
+		raw_string[x] = SomeXString.raw_string[x];
+	}
+	raw_string[(capacity - 1)] = '\0';
+}
+
+void XString::assign(const std::string & SomeString)
+{
+	const char* StringPoint = SomeString.c_str();
+	capacity = len(StringPoint) + 1;
+	for (int x = 0; x < (capacity - 1); x++)
+	{
+		raw_string[x] = StringPoint[x];
+	}
+	raw_string[(capacity - 1)] = '\0';
+}
+
+void XString::append(const char * ArrayInput)
+{
+	int y = 0;
+	for (int x = capacity; x != '\0'; x++)
+	{
+		raw_string[x] = ArrayInput[y];
+		y++;
+		capacity++;
+		if (x == '\0')
+		{
+			break;
+		}
 	}
 	raw_string[(capacity - 1)] = '\0';
 }
@@ -77,4 +113,9 @@ int XString::len(const char* ArrayLen)
 
 void XString::display() {
 	std::cout << raw_string << std::endl;
+}
+
+int XString::capmod()
+{
+	return capacity - 1;
 }
