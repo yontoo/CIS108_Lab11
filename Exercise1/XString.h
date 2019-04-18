@@ -15,7 +15,7 @@ public:
 	XString(size_t);
 	~XString();
 
-	int len(const char*); //returns string length.
+	size_t len(const char*); //returns string length.
 	void clear();
 	int capmod(); //returns the capacity of the string.
 	std::string str(std::string&);

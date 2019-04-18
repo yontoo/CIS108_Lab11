@@ -4,7 +4,7 @@
 
 
 XString::XString(){
-	capacity = 255;
+	capacity = 256;
 	raw_string = new char[capacity];
 	raw_string[0] = '\0';
 }
@@ -52,6 +52,7 @@ XString::XString(size_t SomeCapacity)
 void XString::assign(const char* ArrayInput)
 {
 	capacity = len(ArrayInput) + 1;
+	raw_string = new char[capacity];
 	for (int x = 0; x < (capacity - 1); x++)
 	{
 		raw_string[x] = ArrayInput[x];
@@ -62,6 +63,7 @@ void XString::assign(const char* ArrayInput)
 void XString::assign(XString & SomeXString)
 {
 	capacity = SomeXString.capacity;
+	raw_string = new char[capacity];
 	for (int x = 0; x < (capacity - 1); x++)
 	{
 		raw_string[x] = SomeXString.raw_string[x];
@@ -72,6 +74,7 @@ void XString::assign(XString & SomeXString)
 void XString::assign(const std::string & SomeString)
 {
 	const char* StringPoint = SomeString.c_str();
+	raw_string = new char[capacity];
 	capacity = len(StringPoint) + 1;
 	for (int x = 0; x < (capacity - 1); x++)
 	{
@@ -82,16 +85,31 @@ void XString::assign(const std::string & SomeString)
 
 void XString::append(const char * ArrayInput)
 {
-	int y = 0;
-	for (int x = capacity; x != '\0'; x++)
+	capacity = len(raw_string) + len(ArrayInput);
+	for (int x = len(raw_string), y = 0; x < (capacity); x++, y++)
 	{
 		raw_string[x] = ArrayInput[y];
-		y++;
-		capacity++;
-		if (x == '\0')
-		{
-			break;
-		}
+	}
+	raw_string[capacity] = '\0';
+}
+
+void XString::append(XString & SomeXString)
+{
+	capacity = len(raw_string) + SomeXString.capacity;
+	for (int x = len(raw_string), y = 0; x < (capacity); x++, y++)
+	{
+		raw_string[x] = SomeXString.raw_string[y];
+	}
+	raw_string[capacity] = '\0';
+}
+
+void XString::append(const std::string & SomeString)
+{
+	const char* StringPoint = SomeString.c_str();
+	capacity = len(StringPoint) + len(raw_string);
+	for (int x = len(raw_string), y = 0; x < (capacity); x++, y++)
+	{
+		raw_string[x] = StringPoint[y];
 	}
 	raw_string[(capacity - 1)] = '\0';
 }
@@ -101,10 +119,10 @@ XString::~XString() {
 	raw_string = nullptr;
 }
 
-int XString::len(const char* ArrayLen)
+size_t XString::len(const char* ArrayLen)
 {
 	const char* ArrayPoint = ArrayLen;
-	while (*ArrayPoint)		//While loop walks through pointer until 0 or '\0'. Used https://stackoverflow.com/questions/26923117/rewriting-strlen-in-c for help with this one.
+	while (*ArrayPoint)		//While loop walks through pointer until '\0'. Used https://stackoverflow.com/questions/26923117/rewriting-strlen-in-c for help with this one.
 	{
 		++ArrayPoint;
 	}

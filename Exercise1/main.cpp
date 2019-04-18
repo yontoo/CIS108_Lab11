@@ -20,6 +20,10 @@ int main()
 	Three.display();
 	Four.append(*test3);
 	Four.display();
+	One.append(Three);
+	One.display();
+	Four.append(test2);
+	Four.display();
 	system("pause");
 	return 0;
 }
